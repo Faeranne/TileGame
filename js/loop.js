@@ -1,13 +1,12 @@
-var loop = function(){
-	stats.begin();
-	drawMap(context,map1,tileSheet1);
-	for(var i = 0; i < entityList.length; i++){
-		entityList[i].draw(context);
+$(function(){
+	window.loop = function(){
+		stats.begin();
+		map.drawMap(context,map1,tileSheet1);
+		entities.update();
+		entities.draw();
+		input.inputLoop();
+		gamepad.update();
+		window.requestAnimationFrame(loop);
+		stats.end();
 	}
-	for(var i = 0; i < entityList.length; i++){
-		entityList[i].update();
-	}
-	inputLoop();
-	window.requestAnimationFrame(loop);
-	stats.end();
-}
+})

@@ -1,69 +1,75 @@
-Require('js/loop.js');
-Require('js/map.js');
-Require('js/data.js');
-Require('js/entity.js');
-Require('js/input.js');
-Require('js/stats.min.js');
+$(function(){
+	Require('js/loop.js');
+	Require('js/map.js');
+	Require('js/data.js');
+	Require('js/entity.js');
+	Require('js/input.js');
+	Require('js/keyboard.js');
+	Require('js/gamepad.js');
+	Require('js/do.js');
+	Require('js/stats.min.js');
 
-var tileWidth = 16;
-var tileHeight = 16;
+	window.tileWidth = 16;
+	window.tileHeight = 16;
 
-var mapOffsetX = 0;
-var mapOffsetY = 0;
+	window.mapOffsetX = 0;
+	window.mapOffsetY = 0;
 
-var canvas = null;
-var context = null;
+	window.canvas = null;
+	window.context = null;
 
 
-var init = function(){
-	setup();
-	setupPlayer();
-	setupInput();
-	setupStats();
-	loop(map1,tileSheet1);
-}
+	window.init = function(){
+		setup();
+		setupPlayer();
+		setupInput();
+		setupStats();
+		loop(map1,tileSheet1);
+	}
 
-var inputSystem = null
+	window.setup = function(){
+		canvas = document.getElementById('test');
+		context = canvas.getContext('2d');
+	}
 
-var setup = function(){
-	canvas = document.getElementById('test');
-	inputSystem = new input()
-	context = canvas.getContext('2d');
-}
+	window.player = null
 
-var player = null
+	window.setupPlayer = function(){
+		player = entities.new(spriteSheet1.character)
+		player.xOffset = 3
+		player.yOffset = -4
+		player.makeSolid(true);
+	}
 
-var setupPlayer = function(){
-	player = new entity(spriteSheet1.character)
-	player.xOffset = 3
-	player.yOffset = -4
-	player.makeSolid(true);
-	inputSystem.attachCommand({type:'keydown',key:87},function(){inputSystem.setCommand(function(){player.move(0,-1)})})
-	inputSystem.attachCommand({type:'keydown',key:83},function(){inputSystem.setCommand(function(){player.move(0,1)})})
-	inputSystem.attachCommand({type:'keydown',key:65},function(){inputSystem.setCommand(function(){player.move(-1,0)})})
-	inputSystem.attachCommand({type:'keydown',key:68},function(){inputSystem.setCommand(function(){player.move(1,0)})})
-	inputSystem.attachCommand({type:'keyup',key:87},function(){inputSystem.releaseCommand()})
-	inputSystem.attachCommand({type:'keyup',key:83},function(){inputSystem.releaseCommand()})
-	inputSystem.attachCommand({type:'keyup',key:65},function(){inputSystem.releaseCommand()})
-	inputSystem.attachCommand({type:'keyup',key:68},function(){inputSystem.releaseCommand()})
-}
+	window.setupInput = function(){
+		action.add("left",function(){player.move(-1,0)});
+		action.add("right",function(){player.move(1,0)});
+		action.add("up",function(){player.move(0,-1)});
+		action.add("down",function(){player.move(0,1)});
+		keyboard.attachCommand(87,"up")
+		keyboard.attachCommand(83,"down")
+		keyboard.attachCommand(65,"left")
+		keyboard.attachCommand(68,"right")
+		gamepad.addButton(7,"left");
+		gamepad.addButton(6,"down");
+		gamepad.addButton(5,"right");
+		gamepad.addButton(4,"up");
+		document.querySelector('#controls #left').onclick = action.callback("left")
+		document.querySelector('#controls #right').onclick = action.callback("right")
+		document.querySelector('#controls #up').onclick = action.callback("up")
+		document.querySelector('#controls #down').onclick = action.callback("down")
+	}
 
-var setupInput = function(){
-	document.querySelector('#controls #left').onclick = function(){player.move(-1,0)}
-	document.querySelector('#controls #right').onclick = function(){player.move(1,0)}
-	document.querySelector('#controls #up').onclick = function(){player.move(0,-1)}
-	document.querySelector('#controls #down').onclick = function(){player.move(0,1)}
-}
+	window.stats = null;
 
-var stats = null;
+	window.setupStats = function(){
+		stats = new Stats();
+		stats.setMode(0); // 0: fps, 1: ms
 
-var setupStats = function(){
-	stats = new Stats();
-	stats.setMode(0); // 0: fps, 1: ms
-
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.left = '70px';
-	stats.domElement.style.top = '175px';
-	
-	document.body.appendChild( stats.domElement );
-}
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.left = '70px';
+		stats.domElement.style.top = '175px';
+		
+		document.body.appendChild( stats.domElement );
+	}
+});

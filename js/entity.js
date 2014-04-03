@@ -1,116 +1,129 @@
-var entity = function(sprite,w,h,x,y) {
-	this.xOffset = 0;
-	this.yOffset = 0;
-	this.x = 0;
-	this.y = 0;
-	this.xMap = x || 0;
-	this.yMap = y || 0;
-	this.width = w || 10;
-	this.height = h || 20;
-	this.lockOffsetX = 0;
-	this.lockOffsetY = 0;
-	this.sprite = sprite
-	this.viewLock = false;
-	this.animationDirection = null;
-	this.animating = false;
-	this.animationCount = 0;
+$(function(){
+	window.entities = entity = new Object;
+	entity.entityList = [];
+	entity.new = function(sprite,w,h,x,y) {
+		var temp = new Object;
+		temp.xOffset = 0;
+		temp.yOffset = 0;
+		temp.x = 0;
+		temp.y = 0;
+		temp.xMap = x || 0;
+		temp.yMap = y || 0;
+		temp.width = w || 10;
+		temp.height = h || 20;
+		temp.lockOffsetX = 0;
+		temp.lockOffsetY = 0;
+		temp.sprite = sprite
+		temp.viewLock = false;
+		temp.animationDirection = null;
+		temp.animating = false;
+		temp.animationCount = 0;
 
-	this.draw = function(context){
-		context.fillStyle = this.sprite.color;
-		context.fillRect(this.x,this.y,this.width,this.height);
-		return this;
-	}
-
-	this.offset = function(x,y){
-		this.xOffset = x;
-		this.yOffset = y;
-		return this;
-	}
-
-	this.update = function(){
-		this.x = this.xMap*tileWidth + this.xOffset;
-		this.y = this.yMap*tileHeight + this.yOffset;
-		if(!this.viewLock){
-			this.x += (mapOffsetX*tileWidth);
-			this.y += (mapOffsetY*tileHeight);
-		}else{
-			this.x += (this.lockOffsetX);
-			this.y += (this.lockOffsetY);
+		temp.draw = function(context){
+			context.fillStyle = temp.sprite.color;
+			context.fillRect(temp.x,temp.y,temp.width,temp.height);
+			return temp;
 		}
-		if(this.animating){
-			if(this.animationCount > 0){
-				if(this.animationDirection == "+x"){
-					this.xOffset++;
-				}
-				if(this.animationDirection == "-x"){
-					this.xOffset--;
-				}
-				if(this.animationDirection == "+y"){
-					this.yOffset++;
-				}
-				if(this.animationDirection == "-y"){
-					this.yOffset--;
-				}
-				this.animationCount--;
+
+		temp.offset = function(x,y){
+			temp.xOffset = x;
+			temp.yOffset = y;
+			return temp;
+		}
+
+		temp.update = function(){
+			temp.x = temp.xMap*tileWidth + temp.xOffset;
+			temp.y = temp.yMap*tileHeight + temp.yOffset;
+			if(!temp.viewLock){
+				temp.x += (mapOffsetX*tileWidth);
+				temp.y += (mapOffsetY*tileHeight);
 			}else{
-				this.animationCount = 0;
-				this.animating = false;
+				temp.x += (temp.lockOffsetX);
+				temp.y += (temp.lockOffsetY);
 			}
+			if(temp.animating){
+				if(temp.animationCount > 0){
+					if(temp.animationDirection == "+x"){
+						temp.xOffset++;
+					}
+					if(temp.animationDirection == "-x"){
+						temp.xOffset--;
+					}
+					if(temp.animationDirection == "+y"){
+						temp.yOffset++;
+					}
+					if(temp.animationDirection == "-y"){
+						temp.yOffset--;
+					}
+					temp.animationCount--;
+				}else{
+					temp.animationCount = 0;
+					temp.animating = false;
+				}
+			}
+			return temp;
 		}
-		return this;
-	}
 
-	this.move = function(x,y,static){
-		if(!this.animating){
-			if(!checkColision(this.solid,this.xMap + x, this.yMap + y)){
-				this.xMap += x;
-				this.yMap += y;
-				if(!static){
-					this.animating = true;
-					if(x>0){
-						this.xOffset -= tileWidth;
-						this.animationDirection = "+x";
-						this.animationCount = tileWidth;
-					}
-					if(x<0){
-						this.xOffset += tileWidth;
-						this.animationDirection = "-x";
-						this.animationCount = tileWidth;
-					}
-					if(y>0){
-						this.yOffset -= tileHeight;
-						this.animationDirection = "+y";
-						this.animationCount = tileHeight;
-					}
-					if(y<0){
-						this.yOffset += tileHeight;
-						this.animationDirection = "-y";
-						this.animationCount = tileHeight;
+		temp.move = function(x,y,static){
+			if(!temp.animating){
+				if(!map.checkColision(temp.solid,temp.xMap + x, temp.yMap + y)){
+					temp.xMap += x;
+					temp.yMap += y;
+					if(!static){
+						temp.animating = true;
+						if(x>0){
+							temp.xOffset -= tileWidth;
+							temp.animationDirection = "+x";
+							temp.animationCount = tileWidth;
+						}
+						if(x<0){
+							temp.xOffset += tileWidth;
+							temp.animationDirection = "-x";
+							temp.animationCount = tileWidth;
+						}
+						if(y>0){
+							temp.yOffset -= tileHeight;
+							temp.animationDirection = "+y";
+							temp.animationCount = tileHeight;
+						}
+						if(y<0){
+							temp.yOffset += tileHeight;
+							temp.animationDirection = "-y";
+							temp.animationCount = tileHeight;
+						}
 					}
 				}
 			}
+			return temp;
 		}
-		return this;
-	}
 
-	this.makeSolid = function(solid){
-		this.solid = solid;
-		return this;
-	}
-
-	this.lockToViewport = function(lock,x,y){
-		this.viewLock = lock;
-		if(x){
-			this.lockOffsetX = x;
+		temp.makeSolid = function(solid){
+			temp.solid = solid;
+			return temp;
 		}
-		if(y){
-			this.lockOffsetY = y;
+
+		temp.lockToViewport = function(lock,x,y){
+			temp.viewLock = lock;
+			if(x){
+				temp.lockOffsetX = x;
+			}
+			if(y){
+				temp.lockOffsetY = y;
+			}
+			return temp;
 		}
-		return this;
+		entity.draw = function(){
+			for(var i = 0; i < entity.entityList.length; i++){
+				entity.entityList[i].draw(context);
+			}
+		}
+		entity.update = function(){
+			for(var i = 0; i < entity.entityList.length; i++){
+				entity.entityList[i].update();
+			}
+		}
+
+		entity.entityList.push(temp);
+		return temp;
 	}
-
-	entityList.push(this);
-	return this;
-}
-
-var entityList = []
+});

@@ -1,25 +1,13 @@
-var inputLoop = function(){};
-
-var input = function(){
-	this.attachCommand = function(input,callback){
-		window.addEventListener(input.type,
-				(function(key,callback){
-					return function(e){
-						if(e.keyCode == key){
-							callback();
-						}
-					}
-				})(input.key,callback)
-			, false);
-		return this;
-	}
-	this.setCommand = function(callback){
-		inputLoop = callback;
+$(function(){
+	window.input = input = new Object;
+	input.setCommand = function(callback){
+		this.inputLoop = action.callback(callback);
 		return this;
 	}
 
-	this.releaseCommand = function(){
-		inputLoop = function(){}
+	input.releaseCommand = function(){
+		this.inputLoop = function(){}
 		return this;
 	}
-}
+	input.inputLoop = function(){};
+});
