@@ -3,4 +3,9 @@ TileGame
 
 Legend of Zelda style RPG engine.
 
+Requirements
+--------
+jQuery or ready.js
+
+
 [![Stories in Ready](https://badge.waffle.io/mrmakeit/tilegame.png?label=ready&title=Ready)](http://waffle.io/mrmakeit/tilegame)
