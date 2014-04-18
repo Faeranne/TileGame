@@ -1,0 +1,9 @@
+{
+	"name":"testSprites",
+	"character": {
+		color: "#FCDF86"
+	},
+	"sign":{
+		color: "#efefef"
+	}
+}

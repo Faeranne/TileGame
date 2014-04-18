@@ -1,0 +1,28 @@
+{
+	"name":"testMap",
+	"tileSheet": "testTiles",
+	"spriteSheet": "testSprites",
+	"tiles": [
+		[[{},"grass"],[{},"grass"],[{},"grass"],[{},"grass"],[{},"grass"],[{},"dirt"]],
+		[[{},"grass"],[{},"dirt"],[{},"dirt"],[{},"dirt"],[{},"grass"],[{},"dirt"],[{},"dirt"]],
+		[[{},"grass"],[{},"dirt"],[{"solid":true},"water"],[{},"dirt"],[{},"grass"],[{},"dirt"],[{},"dirt"],[{},"dirt"],[{"action":"transistion"},"hole"]],
+		[[{},"grass"],[{},"dirt"],[{},"dirt"],[{},"dirt"],[{},"grass"],[{},"dirt"],[{},"dirt"]],
+		[[{},"grass"],[{},"grass"],[{},"grass"],[{},"grass"],[{},"grass"],[{},"dirt"]],
+		[[{},"grass"],[{},"grass"],[{"solid":true},"tree"],[{},"grass"],[{},"grass"]],
+		[[{},"grass"],[{"solid":true},"tree"],[{"solid":true},"tree"],[{"solid":true},"tree"],[{},"grass"]],
+		[[{},"grass"],[{},"grass"],[{"solid":true},"log"],[{},"grass"],[{},"grass"]],
+		[[{},"grass"],[{},"grass"],[{},"grass"],[{},"grass"],[{},"grass"]]
+	],
+	"entities":[
+		{"name":"sign","x":3,"y":1,"sprite":"sign","w":16,"h":16}
+	],
+	"player":{
+		"sprite":"player",
+		"w":10,
+		"h":20,
+		"xOff":3,
+		"yOff":10,
+		"x":0,
+		"y":0
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"name":"testTiles",
+	"grass":{
+		"color": "#008F00"
+	},
+	"dirt":{
+		"color": "#705600"
+	},
+	"water":{
+		"color": "#1B14E0"
+	},
+	"tree":{
+		"color": "#0DFF00"
+	},
+	"log":{
+		"color": "#8C7C00"
+	},
+	"hole":{
+		"color": "#000000"
+	}
+}
