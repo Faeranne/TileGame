@@ -1,0 +1,22 @@
+{
+  "name": "tileGame",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mrmakeit/tileGame.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrmakeit/tileGame/issues"
+  },
+  "homepage": "https://github.com/mrmakeit/tileGame",
+  "dependencies": {
+    "express": "^4.4.3"
+  }
+}

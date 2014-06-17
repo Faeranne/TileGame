@@ -1,0 +1,145 @@
+engine
+----
+Global game engine object.  Houses the buildin rendering, file loading, and input system.  Also provides a way to import new plugins.
+
+engine.file
+----
+file loading system.  used by other systems to load map and resource files. Defaults to json style files.
+
+engine.render
+----
+Visual render system.  Controls displaying the game on the screen.  Defaults to using NetHack style text maps.
+
+engine.input
+----
+Input management system.  Manages how the core game accepts controller input.  Defaults to basic keyboard support.
+
+engine.audio
+----
+Audio playback system.  Plays game music and soundeffects.  No default system exists.
+
+engine.core
+----
+Core engine mechanics.  Takes care of moving characters around and storing object and tiles in RAM.  Should not be overwritten.
+
+
+Engine Pubic APIs.
+====
+When building plugin replacements for the given engine parts, you must make sure these functions exist.
+
+engine.file
+----
+
+.loadObject(url) -> promise(object)
+----
+
+Loads the file at 'url' into a json object.  returns a promise that gives the object on success.
+
+.saveObject(url) -> promise()
+----
+
+POSTs a serialized object to 'url'.  returns a promise on success.
+
+engine.render
+----
+
+.drawMap(<context>) -> void
+----
+renders the listed map in the context.  This command defaults to the first context, but can have a 'context' id passed to draw to a different context.  Must draw both engine.core.tiles and engine.core.objects.  This returns on completion.
+
+.drawText(text,x,y,<context>) -> void
+----
+draws 'text' at 'x','y'.  optionally in the given context.
+
+.drawMenu(object, <id>) -> id
+----
+draws a menu using object.  How this menu object is interpreted is up to the module.  This should include rendered the pointer for a menu.  If an id is given, redraw the indicated menu. Returns an ID for closing or redrawing the menu.
+
+.closeMenu(id) -> void
+----
+close menu with given id.
+
+
+engine.input
+----
+
+.setInput(command, action) -> void
+----
+'command' is a function to call when 'action' is performed.  'action' is dependent on the input system.  If 'command' is null, the action should unregister.
+
+.returnInput(action) -> value
+----
+returns 'value' of 'action'.  'action' is dependent on the input system.  'value' is dependent on the action and input system.
+
+
+engine.audio
+----
+
+.playMusic(music)
+----
+play the background music defined by 'music'. returns an id of the music to allow cancelation.
+
+.playSfx(sfx) -> id
+----
+play the soundeffect defined by 'sfx'. returns an id of the sound to allow cancelation.
+
+.cancelMusic(id) -> success
+----
+cancel the background music defined by 'id'. 
+
+.cancelSfx(id) -> success
+----
+cancel the soundeffect defined by 'id'. 
+
+
+
+The functions listed above must exist to be compatable with the default plugins.  you may include other functions to assist with things such as init and looping.
+
+
+engine.core
+====
+
+the functions below are provided by the core module to assist with linking the other plugin systems together.
+
+.addLoop(function() -> logs) -> id
+----
+add the function 'function' to the loop.  this function should return any console logs.  an id is returned to permit removal of the function from the loop
+
+.removeLoop(id) -> void
+----
+remove the function associated with 'id' from the loop.
+
+.forceLoop() -> void
+----
+forces loop to run.  You shouldn't use this for rendering, as the render loop will be executed as nessecary.
+
+.init() -> success
+----
+runs .init() on all loaded modules.  Will return 'true' if loading was successful.
+
+.loadMod(object) -> success
+----
+overides a module with 'object'.  Will return 'true' if successful.
+
+.start() ->
+----
+indicates initalization is complete, and will start the logic and rendering loops.
+
+.setMap(id) -> map
+----
+sets the current map to 'id'.  returns the 'map' object identified by 'id'
+
+.loadMap(url) -> id
+----
+loads the map at 'url'.  uses the file module to get the actual map object.  returns the 'id' of the map object.
+
+.loadResource(url) -> void
+----
+loads the resource pack at 'url'.  This adds to the current resource object.
+
+
+engine.core.tiles
+====
+
+
+
